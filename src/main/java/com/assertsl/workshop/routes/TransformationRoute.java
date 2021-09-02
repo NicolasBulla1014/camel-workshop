@@ -59,7 +59,10 @@ public class TransformationRoute extends RouteBuilder {
 
         from("direct:disableDrug").routeId("disableDrugRoute")
                 .log("disabling drug ${headers.ncdCode}")
-                //TODO: Update the drug with INACTIVE status
+                .setHeader("CamelJpaParameters", method("transformationBean","getDrugParameters"))
+                .to("jpa:com.assertsl.workshop.domain.DrugStore?query=" + databaseProperties.getGetDrug())
+                .bean("transformationBean","disableDrug")
+                //TODO: Update the drug with INACTIVE status-----                
                 .to("jpa:com.assertsl.workshop.domain.DrugStore")
                 .end();
 
@@ -74,7 +77,9 @@ public class TransformationRoute extends RouteBuilder {
                 .log("Response from FDA API ${body}")
                 .log("Getting required fields")
                 .setHeader("packageDescription", jsonpath("$.results[0].packaging[0].description"))
-                //TODO: get genericName and labelerName fields
+                .setHeader("labelerName", jsonpath("$.results[0].labeler_name"))
+                .setHeader("genericName", jsonpath("$.results[0].generic_name"))
+                //TODO: get genericName and labelerName fields----
                 .log("Info obtained packageDescription: ${headers.packageDescription}, labelerName: ${headers.labelerName}, genericName: ${headers.genericName}")
                 .end();
 
