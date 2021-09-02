@@ -1,5 +1,6 @@
 package com.assertsl.workshop.beans;
 
+import com.assertsl.workshop.domain.DrugStore;
 import com.assertsl.workshop.dto.DrugDto;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;
@@ -38,6 +39,10 @@ public class TransformationBean {
         DataHandler dh = mimeMessage.getDataHandler();
         exchange.getIn().setBody(dh.getInputStream());
         exchange.getIn().setHeader(Exchange.FILE_NAME, dh.getName());
+    }
+    
+    public void disableDrug(DrugStore drugStore){
+        drugStore.setStatus("INACTIVO");
     }
 
 
