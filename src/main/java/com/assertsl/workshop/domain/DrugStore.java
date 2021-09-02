@@ -3,11 +3,12 @@ package com.assertsl.workshop.domain;
 import io.swagger.v3.oas.annotations.Hidden;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
-
+@Table(name = "drugs")
 public class DrugStore {
 
     @Id
